@@ -203,12 +203,11 @@ class Ho_Import_Model_Mapper
 
             //prepare the arguments
             $args = $fieldConfig;
-            unset($args['@']);
-            unset($args['store_view']);
-            array_unshift($args, $item);
+            unset($args['@'], $args['store_view']); // Remove special fields
+            array_unshift($args, $item); // Add the item as the first argument
 
-            //get the results
-            $result = call_user_func_array(array($helper, $method), $args);
+            // Call the method directly with the spread operator
+            $result = $helper->{$method}(...array_values($args));
         }
 
         /*
